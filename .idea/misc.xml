@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout/activity_main2.xml" value="0.5" />
         <entry key="..\:/programming_olga/projects/MyFirstApp/app/src/main/res/layout/activity_main.xml" value="0.338768115942029" />
         <entry key="..\:/programming_olga/projects/MyFirstApp/app/src/main/res/layout/activity_main2.xml" value="0.33695652173913043" />
       </map>
