@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
-           findViewById<Button>(R.id.button_dogma).setOnClickListener {
+
+        findViewById<Button>(R.id.button_dogma).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Догма")
             startActivityForResult(intent, 42)
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 42) {
@@ -56,4 +57,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+}
 
