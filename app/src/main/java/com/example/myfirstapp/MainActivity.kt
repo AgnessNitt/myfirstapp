@@ -1,6 +1,4 @@
 package com.example.myfirstapp
-
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -17,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_dogma).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Догма")
+            intent.putExtra(MainActivity2.TEXT_VIEW,"@string/Dogma")
             startActivityForResult(intent, 42)
 
         }
