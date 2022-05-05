@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import layout.AboutActivity
 import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +46,10 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Шоу Трумэна")
             startActivityForResult(intent, 42)
         }
-
+findViewById<Button>(R.id.button_dogma).setOnClickListener {
+    val intent = Intent(this@MainActivity, AboutActivity::class.java)
+    startActivity(intent)
+}
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -57,5 +61,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
+
 
