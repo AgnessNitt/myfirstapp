@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_dogma).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Догма")
-            intent.putExtra(MainActivity2.TEXT_VIEW,"@string/Dogma")
+            intent.putExtra(MainActivity2.TEXT_VIEW,"@+id/Dogma_text")
             startActivityForResult(intent, 42)
 
         }
