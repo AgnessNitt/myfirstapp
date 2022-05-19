@@ -17,11 +17,13 @@ class MainActivity2 : AppCompatActivity() {
 
         title = intent.getStringExtra(EXTRA_TITLE) ?: error("No title provided")
 
-        val text = intent.getStringExtra(TEXT_VIEW) ?: error("No title provided")
+        val text = intent.getStringExtra(EXTRA_DESCRIPTION) ?: error("No title provided")
 
-        val dicription = findViewById<TextView>(R.id.button_dogma)
+        val dicription = findViewById<TextView>(R.id.description)
         dicription.text = text
 
+        val posterId = intent.getIntExtra(EXTRA_POSTER, -1)
+        findViewById<ImageView>(R.id.poster_d).setImageResource(posterId)
 
         val result = Intent()
         result.putExtra(RESULT_FAVORITE, true)
@@ -34,6 +36,7 @@ class MainActivity2 : AppCompatActivity() {
     companion object {
         const val EXTRA_TITLE = "title"
         const val RESULT_FAVORITE = "favorite"
-        const val TEXT_VIEW = "Text"
+        const val EXTRA_DESCRIPTION = "description"
+        const val EXTRA_POSTER = "poster"
     }
 }
