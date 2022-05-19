@@ -18,16 +18,16 @@
             android:layout_height="300dp"
             app:srcCompat="@drawable/dogma">
 
-      </ImageView>
-
+        </ImageView>
 
 
         <TextView
+
             android:id="@+id/button_dogma"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="431dp"
+            android:contentDescription="@+id/description"
             android:text="@string/Dogma_text" />
-
 
 
     </LinearLayout>
