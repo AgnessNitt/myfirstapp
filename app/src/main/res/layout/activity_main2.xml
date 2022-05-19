@@ -20,12 +20,11 @@
 
         </ImageView>
 
-
         <TextView
 
             android:id="@+id/button_dogma"
             android:layout_width="match_parent"
-            android:layout_height="431dp"
+            android:layout_height="291dp"
             android:contentDescription="@+id/description"
             android:text="@string/Dogma_text" />
 

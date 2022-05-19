@@ -23,26 +23,36 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_mnenebolno).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Мне не больно")
+            intent.putExtra(MainActivity2.EXTRA_DESCRIPTION, getString(R.string.MNB_text) )
+            intent.putExtra(MainActivity2.EXTRA_POSTER, R.drawable.mnenebolno)
             startActivityForResult(intent, 42)
         }
         findViewById<Button>(R.id.bottom_pleasantville).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Плезантвилль")
+            intent.putExtra(MainActivity2.EXTRA_DESCRIPTION, getString(R.string.Pl_text))
+            intent.putExtra(MainActivity2.EXTRA_POSTER, R.drawable.pleasantville)
             startActivityForResult(intent, 42)
         }
         findViewById<Button>(R.id.btn_coven).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Ковен")
+            intent.putExtra(MainActivity2.EXTRA_DESCRIPTION, getString(R.string.Coven_text))
+            intent.putExtra(MainActivity2.EXTRA_POSTER, R.drawable.pleasantville)
             startActivityForResult(intent, 42)
         }
         findViewById<Button>(R.id.stariki).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "В бой идут одни старики")
+            intent.putExtra(MainActivity2.EXTRA_DESCRIPTION, getString(R.string.St_text))
+            intent.putExtra(MainActivity2.EXTRA_POSTER, R.drawable.stariki)
             startActivityForResult(intent, 42)
         }
         findViewById<Button>(R.id.truman_show).setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Шоу Трумэна")
+            intent.putExtra(MainActivity2.EXTRA_DESCRIPTION, getString(R.string.TS_text))
+            intent.putExtra(MainActivity2.EXTRA_POSTER, R.drawable.truman)
             startActivityForResult(intent, 42)
         }
 
