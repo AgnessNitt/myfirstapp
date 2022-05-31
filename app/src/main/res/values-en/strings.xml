@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RaccoonMovie</string>
+    <string name="Dogma_text">
+        Two fallen angels Loki and Bartleby, doomed to forever hang around in Wisconsin,
+        learn that they have a chance to return to paradise.
+        To do this, you just need to use the Catholic dogma,
+        hailed as a pioneering cardinal: everyone who passes through a consecrated arch in a cathedral in New Jersey
+        receives remission of sins.
+    </string>
+    <string name="MNB_text">
+
+    The last film from the lyrical triptych of Alexei Balabanov.
+    Three friends stand on the threshold of a luxurious house in the center of a big city.
+    They are young, full of strength and energy, they have talent, skill, lust for life and...
+    - in general, they have everything except one. Except money.
+    However, for this they came here - to offer the services of a designer to the hostess of the house.
+    Natella Antonovna is also young, but it seems that life has already bored her.
+    </string>
+
+    <string name="Pl_text">
+
+     David Wagner is a child of the nineties.
+        But he is fascinated by the television show Pleasantville, which takes place in the 50s.
+        in a small town of the same name, where everyone is chic, cheerful and pure,
+        and life is wonderfully pleasant.
+    </string>
+
+
+    <string name="Coven_text">
+
+      The third season of American Horror Story is about a coven of witches,
+        disguised as an elite boarding house for "gifted" girls,
+        who is trying to protect the last representatives of this species from extinction.
+    </string>
+
+    <string name="St_text">
+
+      This squadron became "singing" - this is how Captain Titarenko selected newcomers for himself.
+        His "old men" were no more than twenty, but the "yellow mouths"
+        replenishment from the flight schools of the accelerated release, into battle anyway,
+        If possible, they were not allowed.
+        They still had a lot to experience - both the heat of battles, and the joy of the first victory over the enemy,
+        and the greatness of the brotherhood, sealed with blood, and the first love, and the bitterness of loss ...
+        And the day will come when, on command, “only old men go into battle”
+        former yellowmouths will rush to their planes.
+    </string>
+
+    <string name="TS_text">
+
+      Imagine that you suddenly begin to understand that everything around you is a scenery,
+        and people are actors pretending to be what they seem to you.
+        Your whole world turns out to be a big TV series where you play the main role,
+        without even knowing it. Your whole life is the result of the work of the author of the TV show,
+        which the whole planet has been watching for thirty years, starting from the moment you were born.
+    </string>
+
+
+</resources>
