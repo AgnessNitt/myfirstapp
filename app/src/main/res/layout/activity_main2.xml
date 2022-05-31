@@ -22,96 +22,16 @@
 
         <TextView
 
-            android:id="@+id/button_dogma"
+            android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:contentDescription="@+id/description"
+            android:layout_height="wrap_content"
             android:text="@string/Dogma_text" />
 
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="пригласить друга">
 
-
-        <ImageView
-            android:id="@+id/poster_MNB"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat="@drawable/mnenebolno" />
-
-        <TextView
-            android:id="@+id/button_mnenebolno"
-            android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:contentDescription="@+id/description"
-            android:text="@string/MNB_text">
-
-        </TextView>
-
-        <ImageView
-            android:id="@+id/poster_pl"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat="@drawable/pleasantville">
-        </ImageView>
-
-        <TextView
-            android:id="@+id/bottom_pleasantville"
-            android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:contentDescription="@+id/description"
-            android:text="@string/Pl_text">
-
-        </TextView>
-
-        <ImageView
-            android:id="@+id/poster_coven"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat = "@drawable/coven">
-
-        </ImageView>
-
-        <TextView
-            android:id="@+id/btn_coven"
-            android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:contentDescription="@+id/description"
-            android:text="@string/Coven_text">
-
-        </TextView>
-        
-        <ImageView
-            android:id="@+id/poster_stariki"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat = "@drawable/stariki">
-
-        </ImageView>
-
-        <TextView
-            android:id="@+id/stariki"
-            android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:contentDescription="@+id/description"
-            android:text="@string/St_text">
-
-        </TextView>
-
-        <ImageView
-            android:id="@+id/TS_poster"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat = "@drawable/truman">
-
-        </ImageView>
-
-        <TextView
-            android:id="@+id/truman_show"
-            android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:contentDescription="@+id/description"
-            android:text="@string/TS_text">
-
-        </TextView>
-
-
+</Button>
     </LinearLayout>
 </ScrollView>

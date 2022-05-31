@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity2::class.java)
             intent.putExtra(MainActivity2.EXTRA_TITLE, "Ковен")
             intent.putExtra(MainActivity2.EXTRA_DESCRIPTION, getString(R.string.Coven_text))
-            intent.putExtra(MainActivity2.EXTRA_POSTER, R.drawable.pleasantville)
+            intent.putExtra(MainActivity2.EXTRA_POSTER, R.drawable.coven)
             startActivityForResult(intent, 42)
         }
         findViewById<Button>(R.id.stariki).setOnClickListener {
