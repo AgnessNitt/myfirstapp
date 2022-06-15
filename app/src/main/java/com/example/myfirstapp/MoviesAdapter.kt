@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-
+//  Адаптер для отображения списка
 class MoviesAdapter(
     private val movies: List<Movie>,
     private val onClick: (Movie) -> Unit,
@@ -26,7 +26,7 @@ class MoviesAdapter(
 
     override fun getItemCount(): Int = movies.size
 
-
+    //    ViewHolder
     class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
         fun bind(movie: Movie, onClick: (Movie) -> Unit) {

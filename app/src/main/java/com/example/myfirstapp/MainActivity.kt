@@ -1,4 +1,5 @@
 package com.example.myfirstapp
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
+    //    Создаём адаптер
     private lateinit var adapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,13 +32,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-       private fun initRecyclerView() {
-           val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
-           recyclerView.layoutManager = LinearLayoutManager(this)
-           recyclerView.adapter = adapter
 
-       }
-    private fun getMovies():List<Movie>{
+    //    Инициализируем RecyclerView
+    private fun initRecyclerView() {
+        val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+    }
+
+    //    Создаём список фильмов
+    private fun getMovies(): List<Movie> {
         val movies = listOf<Movie>(
             Movie(
                 title = "Догма",
@@ -69,14 +74,16 @@ class MainActivity : AppCompatActivity() {
                 imageResId = R.drawable.truman
             )
         )
-return movies
-
+        return movies
     }
+
+    //    Обработка нажатия на кнопку
     private fun onMovieClicked(movie: Movie) {
         val intent = Intent(this, MovieActivity::class.java)
         intent.putExtra(MovieActivity.EXTRA_TITLE, movie.title)
         intent.putExtra(MovieActivity.EXTRA_DESCRIPTION, movie.description)
         intent.putExtra(MovieActivity.EXTRA_POSTER, movie.imageResId)
         startActivityForResult(intent, 42)
+    }
 }
-}
+
