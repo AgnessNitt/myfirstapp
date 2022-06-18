@@ -27,11 +27,11 @@
             android:layout_height="wrap_content"
             android:text="@string/Dogma_text" />
 
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="пригласить друга">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="пригласить друга">
 
-</Button>
+        </Button>
     </LinearLayout>
 </ScrollView>
