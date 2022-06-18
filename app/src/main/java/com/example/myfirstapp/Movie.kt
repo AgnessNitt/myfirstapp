@@ -7,4 +7,5 @@ data class Movie(
     val description: String,
     @DrawableRes
     val imageResId: Int,
+    val isFavorite: Boolean
 )
