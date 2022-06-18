@@ -19,8 +19,8 @@ class MovieActivity : AppCompatActivity() {
 
         val text = intent.getStringExtra(EXTRA_DESCRIPTION) ?: error("No title provided")
 
-        val dicription = findViewById<TextView>(R.id.description)
-        dicription.text = text
+        val description = findViewById<TextView>(R.id.description)
+        description.text = text
 
         val posterId = intent.getIntExtra(EXTRA_POSTER, -1)
         findViewById<ImageView>(R.id.poster_d).setImageResource(posterId)
