@@ -6,5 +6,5 @@ data class Movie(
     val title: String,
     val description: String,
     @DrawableRes
-    val imageResId: Int
+    val imageResId: Int,
 )

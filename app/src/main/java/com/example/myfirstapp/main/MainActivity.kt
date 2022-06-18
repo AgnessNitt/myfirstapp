@@ -1,14 +1,13 @@
-package com.example.myfirstapp
+package com.example.myfirstapp.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myfirstapp.Movie
+import com.example.myfirstapp.movie.MovieActivity
+import com.example.myfirstapp.R
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
-        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }
 
