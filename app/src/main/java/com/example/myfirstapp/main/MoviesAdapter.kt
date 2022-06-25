@@ -50,11 +50,15 @@ class MoviesAdapter(
             val favoriteImageResId = getFavoriteImageResId(movie.isFavorite)
 
             image.setImageResource(movie.imageResId)
-            buttonViewInfo.text = movie.title
-            buttonViewInfo.setOnClickListener { onViewMovieClick(movie) }
+            buttonViewInfo.apply {
+               text = movie.title
+               setOnClickListener { onViewMovieClick(movie) }
+            }
 
-            buttonSetFavorite.setImageResource(favoriteImageResId)
-            buttonSetFavorite.setOnClickListener { onSetFavoriteClick(movie) }
+            buttonSetFavorite.apply {
+                setImageResource(favoriteImageResId)
+                setOnClickListener { onSetFavoriteClick(movie) }
+            }
         }
 
         private fun getFavoriteImageResId(isFavorite: Boolean): Int {
