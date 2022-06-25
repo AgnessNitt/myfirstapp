@@ -55,5 +55,12 @@
         which the whole planet has been watching for thirty years, starting from the moment you were born.
     </string>
 
+    <string name="dogma">Dogma</string>
+    <string name="mne_ne_bolno">Mne ne bolno</string>
+    <string name="coven">Coven</string>
+    <string name="plesantville">Plesantville</string>
+    <string name="stariki">V boy idut odni stariki</string>
+    <string name="truman">Truman`s show</string>
+    <string name="button_show_favorites">Show favorites</string>
 
 </resources>
