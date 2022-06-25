@@ -2,10 +2,10 @@ package com.example.myfirstapp.favorite
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.R
 import com.example.myfirstapp.data.MoviesDataSource
-import com.example.myfirstapp.main.MoviesAdapter
 
 class FavoriteMoviesActivity : AppCompatActivity() {
 
@@ -21,7 +21,26 @@ class FavoriteMoviesActivity : AppCompatActivity() {
     //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         adapter = FavoriteMovieAdapter(movies = MoviesDataSource.getFavoriteMovies())
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_favorite_movies)
-        recyclerView.adapter = adapter
+        val recyclerFavoriteMovies = findViewById<RecyclerView>(R.id.recycler_favorite_movies)
+        recyclerFavoriteMovies.adapter = adapter
+
+        val itemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean = false
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val movie = adapter.getItem(viewHolder.adapterPosition)
+                    MoviesDataSource.deleteFromFavorites(movie)
+                    adapter.refreshMovies(MoviesDataSource.getFavoriteMovies())
+                }
+            }
+        )
+        itemTouchHelper.attachToRecyclerView(recyclerFavoriteMovies)
     }
 }

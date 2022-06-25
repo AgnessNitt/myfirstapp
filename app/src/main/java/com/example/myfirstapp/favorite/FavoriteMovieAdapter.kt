@@ -37,6 +37,8 @@ class FavoriteMovieAdapter(private var movies: List<Movie>) :
         notifyDataSetChanged()
     }
 
+    fun getItem(position: Int): Movie = movies[position]
+
     //    ViewHolder
     class FavoriteMoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 

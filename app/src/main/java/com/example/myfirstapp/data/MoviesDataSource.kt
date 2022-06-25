@@ -63,4 +63,10 @@ object MoviesDataSource {
         val favoriteMovies = movies.filter { movie -> movie.isFavorite }
         return favoriteMovies
     }
+
+    fun deleteFromFavorites(movie: Movie){
+        val index = _movies.indexOf(movie)
+        val newMovie = movie.copy(isFavorite = false)
+        _movies[index] = newMovie
+    }
 }
