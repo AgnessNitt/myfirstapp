@@ -11,9 +11,10 @@ import com.example.myfirstapp.movie.MovieActivity
 import com.example.myfirstapp.R
 import com.example.myfirstapp.data.MoviesDataSource
 import com.example.myfirstapp.favorite.FavoriteMoviesActivity
+import com.example.myfirstapp.observer.MovieObserver
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MovieObserver {
 
     //    Создаём адаптер
     private lateinit var adapter: MoviesAdapter
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         MoviesDataSource.createMovies(applicationContext)
         initRecyclerView()
+        MoviesDataSource.addObserver(this)
         setOnShowFavoritesButtonClickListener()
     }
 
@@ -34,6 +36,15 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Результат $result", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onMoviesChanged(movies: List<Movie>) {
+        adapter.refreshMovies(movies)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        MoviesDataSource.removeObserver(this)
     }
 
     //    Инициализируем RecyclerView

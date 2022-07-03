@@ -3,12 +3,19 @@ package com.example.myfirstapp.data
 import android.content.Context
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
+import com.example.myfirstapp.observer.MovieObservable
 
-object MoviesDataSource {
+object MoviesDataSource : MovieObservable() {
 
     private var _movies: MutableList<Movie> = mutableListOf()
     val movies: List<Movie>
         get() = _movies
+
+    override fun notifyObservers() {
+        observers.forEach {
+            it.onMoviesChanged(movies)
+        }
+    }
 
     //    Создаём список фильмов
     fun createMovies(context: Context) {
@@ -57,6 +64,7 @@ object MoviesDataSource {
         val index = _movies.indexOf(movie)
         val newMovie = movie.copy(isFavorite = !movie.isFavorite)
         _movies[index] = newMovie
+        notifyObservers()
     }
 
     fun getFavoriteMovies(): List<Movie> {
@@ -64,9 +72,10 @@ object MoviesDataSource {
         return favoriteMovies
     }
 
-    fun deleteFromFavorites(movie: Movie){
+    fun deleteFromFavorites(movie: Movie) {
         val index = _movies.indexOf(movie)
         val newMovie = movie.copy(isFavorite = false)
         _movies[index] = newMovie
+        notifyObservers()
     }
 }
