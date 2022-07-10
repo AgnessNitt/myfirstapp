@@ -1,11 +1,13 @@
 package com.example.myfirstapp.main
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.GridLayoutManager
@@ -52,6 +54,10 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         MoviesDataSource.removeObserver(this)
     }
 
+    override fun onBackPressed() {
+        showExitDialog()
+    }
+
     //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
@@ -94,6 +100,22 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             val intent = Intent(this, FavoriteMoviesActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun showExitDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setMessage(R.string.exit_dialog_message)
+            .setTitle(R.string.exit_dialog_title)
+            .setPositiveButton(R.string.button_yes) { dialog, id ->
+                dialog.dismiss()
+                this.finish()
+            }
+            .setNegativeButton(R.string.button_no) { dialog, id ->
+                dialog.dismiss()
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }
 
