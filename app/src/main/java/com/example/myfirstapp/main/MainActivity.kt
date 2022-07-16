@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.movie.MovieActivity
@@ -56,6 +59,15 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         )
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
         recyclerView.adapter = adapter
+
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        val dividerDrawable = ContextCompat.getDrawable(this, R.drawable.background_divider)
+
+        dividerDrawable?.let {
+            itemDecoration.setDrawable(dividerDrawable)
+        }
+
+        recyclerView.addItemDecoration(itemDecoration)
     }
 
     //    Обработка нажатия на кнопку
