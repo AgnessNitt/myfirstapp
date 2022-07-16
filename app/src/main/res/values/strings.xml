@@ -61,5 +61,6 @@
     <string name="stariki">В бой идут одни старики</string>
     <string name="truman">Шоу Трумана</string>
     <string name="button_show_favorites">Показать избранное</string>
+    <string name="button_add_movie">Добавить</string>
 
 </resources>

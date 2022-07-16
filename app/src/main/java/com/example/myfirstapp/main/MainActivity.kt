@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         initRecyclerView()
         MoviesDataSource.addObserver(this)
         setOnShowFavoritesButtonClickListener()
+        setUpAddButton()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     }
 
     override fun onMoviesChanged(movies: List<Movie>) {
-        adapter.refreshMovies(movies)
+        adapter.refreshMovies(movies.toMutableList())
     }
 
     override fun onDestroy() {
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
-            movies = MoviesDataSource.movies,
+            movies = MoviesDataSource.movies.toMutableList(),
             onViewMovieClick = this::onMovieClicked,
             onSetFavoriteClick = this::onSetFavoriteClicked
         )
@@ -67,7 +68,11 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             itemDecoration.setDrawable(dividerDrawable)
         }
 
+        //        Устанавливаем ItemDecoration
         recyclerView.addItemDecoration(itemDecoration)
+
+//        Устанавливаем ItemAnimator
+        recyclerView.itemAnimator = MovieItemAnimator()
     }
 
     //    Обработка нажатия на кнопку
@@ -82,7 +87,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     //    Обработка нажатия на кнопку добавления в избранное
     private fun onSetFavoriteClicked(movie: Movie) {
         MoviesDataSource.setMovieFavorite(movie)
-        adapter.refreshMovies(MoviesDataSource.movies)
+        adapter.refreshMovies(MoviesDataSource.movies.toMutableList())
     }
 
     private fun setOnShowFavoritesButtonClickListener() {
@@ -90,6 +95,20 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         button.setOnClickListener {
             val intent = Intent(this, FavoriteMoviesActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun setUpAddButton() {
+        val addButton = findViewById<AppCompatButton>(R.id.button_add_movie)
+        addButton.setOnClickListener {
+            adapter.addMovie(
+                Movie(
+                    title = getString(R.string.dogma),
+                    description = getString(R.string.Dogma_text),
+                    imageResId = R.drawable.dogma,
+                    isFavorite = false
+                )
+            )
         }
     }
 }
