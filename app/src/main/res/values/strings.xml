@@ -54,5 +54,12 @@
         которое вот уже тридцать лет смотрит вся планета, начиная с момента вашего рождения.
     </string>
 
+    <string name="dogma">Догма</string>
+    <string name="mne_ne_bolno">Мне не больно</string>
+    <string name="coven">Ковен</string>
+    <string name="plesantville">Плезантвиль</string>
+    <string name="stariki">В бой идут одни старики</string>
+    <string name="truman">Шоу Трумана</string>
+    <string name="button_show_favorites">Показать избранное</string>
 
 </resources>

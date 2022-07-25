@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
@@ -29,10 +30,9 @@ class MoviesAdapter(
 
     override fun getItemCount(): Int = movies.size
 
-    fun refreshMovies(movies: List<Movie>){
+    fun refreshMovies(movies: List<Movie>) {
         this.movies = movies
         notifyDataSetChanged()
-
     }
 
     //    ViewHolder
@@ -61,7 +61,7 @@ class MoviesAdapter(
             }
         }
 
-        private fun getFavoriteImageResId(isFavorite: Boolean) : Int {
+        private fun getFavoriteImageResId(isFavorite: Boolean): Int {
             return if (isFavorite) R.drawable.ic_favorite
             else R.drawable.ic_not_favorite
         }
