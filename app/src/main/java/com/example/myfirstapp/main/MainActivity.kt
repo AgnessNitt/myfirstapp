@@ -16,7 +16,7 @@ import com.example.myfirstapp.observer.MovieObserver
 
 class MainActivity : AppCompatActivity(), MovieObserver {
 
-    //    Создаём адаптер
+    //    create adapter
     private lateinit var adapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         MoviesDataSource.removeObserver(this)
     }
 
-    //    Инициализируем RecyclerView
+    //    initialization RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
             movies = MoviesDataSource.movies,
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         recyclerView.adapter = adapter
     }
 
-    //    Обработка нажатия на кнопку
+    //    button click handling
     private fun onMovieClicked(movie: Movie) {
         val intent = Intent(this, MovieActivity::class.java)
         intent.putExtra(MovieActivity.EXTRA_TITLE, movie.title)
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         startActivityForResult(intent, 42)
     }
 
-    //    Обработка нажатия на кнопку добавления в избранное
+    //    adding to favorites
     private fun onSetFavoriteClicked(movie: Movie) {
         MoviesDataSource.setMovieFavorite(movie)
         adapter.refreshMovies(MoviesDataSource.movies)
