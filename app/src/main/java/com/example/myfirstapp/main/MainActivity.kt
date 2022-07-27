@@ -9,9 +9,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.movie.MovieActivity
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         initRecyclerView()
         MoviesDataSource.addObserver(this)
         setOnShowFavoritesButtonClickListener()
+        setUpAddButton()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     }
 
     override fun onMoviesChanged(movies: List<Movie>) {
-        adapter.refreshMovies(movies)
+        adapter.refreshMovies(movies.toMutableList())
     }
 
     override fun onDestroy() {
@@ -61,13 +65,26 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
-            movies = MoviesDataSource.movies,
+            movies = MoviesDataSource.movies.toMutableList(),
             onViewMovieClick = this::onMovieClicked,
             onSetFavoriteClick = this::onSetFavoriteClicked
         )
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
         recyclerView.layoutManager = getLayoutManager()
         recyclerView.adapter = adapter
+
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        val dividerDrawable = ContextCompat.getDrawable(this, R.drawable.background_divider)
+
+        dividerDrawable?.let {
+            itemDecoration.setDrawable(dividerDrawable)
+        }
+
+        //        Устанавливаем ItemDecoration
+        recyclerView.addItemDecoration(itemDecoration)
+
+//        Устанавливаем ItemAnimator
+        recyclerView.itemAnimator = MovieItemAnimator()
     }
 
     private fun getLayoutManager(): RecyclerView.LayoutManager {
@@ -91,7 +108,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     //    Обработка нажатия на кнопку добавления в избранное
     private fun onSetFavoriteClicked(movie: Movie) {
         MoviesDataSource.setMovieFavorite(movie)
-        adapter.refreshMovies(MoviesDataSource.movies)
+        adapter.refreshMovies(MoviesDataSource.movies.toMutableList())
     }
 
     private fun setOnShowFavoritesButtonClickListener() {
@@ -99,6 +116,20 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         button.setOnClickListener {
             val intent = Intent(this, FavoriteMoviesActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun setUpAddButton() {
+        val addButton = findViewById<AppCompatButton>(R.id.button_add_movie)
+        addButton.setOnClickListener {
+            adapter.addMovie(
+                Movie(
+                    title = getString(R.string.dogma),
+                    description = getString(R.string.Dogma_text),
+                    imageResId = R.drawable.dogma,
+                    isFavorite = false
+                )
+            )
         }
     }
 

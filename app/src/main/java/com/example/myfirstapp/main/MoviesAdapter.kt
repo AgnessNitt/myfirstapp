@@ -5,14 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
 
 //  Адаптер для отображения списка
 class MoviesAdapter(
-    private var movies: List<Movie>,
+    private var movies: MutableList<Movie>,
     private val onViewMovieClick: (Movie) -> Unit,
     private val onSetFavoriteClick: (Movie) -> Unit
 ) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
@@ -30,19 +29,28 @@ class MoviesAdapter(
 
     override fun getItemCount(): Int = movies.size
 
-    fun refreshMovies(movies: List<Movie>) {
+    fun refreshMovies(movies: MutableList<Movie>) {
         this.movies = movies
         notifyDataSetChanged()
     }
 
+    fun addMovie(movie: Movie) {
+        movies.add(1, movie)
+        notifyItemInserted(1)
+    }
+
     //    ViewHolder
-    class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    class MoviesViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(
             movie: Movie,
             onViewMovieClick: (Movie) -> Unit,
             onSetFavoriteClick: (Movie) -> Unit
         ) {
+            //  Загружаем анимацию
+//            item.animation = AnimationUtils.loadAnimation(item.context, R.anim.slide_in)
+
+
             val image = itemView.findViewById<ImageView>(R.id.image)
             val buttonViewInfo = itemView.findViewById<Button>(R.id.button_view_info)
             val buttonSetFavorite = itemView.findViewById<ImageView>(R.id.button_set_favorite)
@@ -51,8 +59,8 @@ class MoviesAdapter(
 
             image.setImageResource(movie.imageResId)
             buttonViewInfo.apply {
-               text = movie.title
-               setOnClickListener { onViewMovieClick(movie) }
+                text = movie.title
+                setOnClickListener { onViewMovieClick(movie) }
             }
 
             buttonSetFavorite.apply {

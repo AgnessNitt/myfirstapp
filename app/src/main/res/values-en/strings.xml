@@ -66,5 +66,6 @@
     <string name="exit_dialog_message">Are you sure you want to exit</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
+    <string name="button_add_movie">Add</string>
 
 </resources>
