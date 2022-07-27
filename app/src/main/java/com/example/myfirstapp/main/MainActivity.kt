@@ -1,15 +1,12 @@
 package com.example.myfirstapp.main
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +21,10 @@ import com.example.myfirstapp.favorite.FavoriteMoviesActivity
 import com.example.myfirstapp.observer.MovieObserver
 
 
-class MainActivity : AppCompatActivity(), MovieObserver {
+class MainActivity : AppCompatActivity() {
+    //    Для создания вьюмодели используется делегат.
+    //    Он создаст экземпляр вьюмодели только в момент первого обращения к ней.
+    private val viewModel: MainViewModel by viewModels()
 
     //    Создаём адаптер
     private lateinit var adapter: MoviesAdapter
@@ -32,9 +32,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        MoviesDataSource.createMovies(applicationContext)
         initRecyclerView()
-        MoviesDataSource.addObserver(this)
         setOnShowFavoritesButtonClickListener()
         setUpAddButton()
     }
@@ -49,25 +47,14 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         }
     }
 
-    override fun onMoviesChanged(movies: List<Movie>) {
-        adapter.refreshMovies(movies.toMutableList())
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        MoviesDataSource.removeObserver(this)
-    }
-
-    override fun onBackPressed() {
-        showExitDialog()
-    }
+    override fun onBackPressed() = showExitDialog()
 
     //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
-            movies = MoviesDataSource.movies.toMutableList(),
+            movies = mutableListOf(),
             onViewMovieClick = this::onMovieClicked,
-            onSetFavoriteClick = this::onSetFavoriteClicked
+            onSetFavoriteClick = viewModel::setMovieFavorite
         )
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
         recyclerView.layoutManager = getLayoutManager()
@@ -80,11 +67,12 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             itemDecoration.setDrawable(dividerDrawable)
         }
 
-        //        Устанавливаем ItemDecoration
+        //  Устанавливаем ItemDecoration
         recyclerView.addItemDecoration(itemDecoration)
 
-//        Устанавливаем ItemAnimator
+        //  Устанавливаем ItemAnimator
         recyclerView.itemAnimator = MovieItemAnimator()
+        viewModel.movies.observe(this) { adapter.refreshMovies(it.toMutableList()) }
     }
 
     private fun getLayoutManager(): RecyclerView.LayoutManager {
@@ -105,12 +93,6 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         startActivityForResult(intent, 42)
     }
 
-    //    Обработка нажатия на кнопку добавления в избранное
-    private fun onSetFavoriteClicked(movie: Movie) {
-        MoviesDataSource.setMovieFavorite(movie)
-        adapter.refreshMovies(MoviesDataSource.movies.toMutableList())
-    }
-
     private fun setOnShowFavoritesButtonClickListener() {
         val button = findViewById<AppCompatButton>(R.id.button_show_favorites)
         button.setOnClickListener {
@@ -122,10 +104,10 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     private fun setUpAddButton() {
         val addButton = findViewById<AppCompatButton>(R.id.button_add_movie)
         addButton.setOnClickListener {
-            adapter.addMovie(
+            viewModel.addMovie(
                 Movie(
-                    title = getString(R.string.dogma),
-                    description = getString(R.string.Dogma_text),
+                    title = R.string.dogma,
+                    description = R.string.Dogma_text,
                     imageResId = R.drawable.dogma,
                     isFavorite = false
                 )

@@ -3,6 +3,7 @@ package com.example.myfirstapp.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -40,17 +41,13 @@ class MoviesAdapter(
     }
 
     //    ViewHolder
-    class MoviesViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MoviesViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(
             movie: Movie,
             onViewMovieClick: (Movie) -> Unit,
             onSetFavoriteClick: (Movie) -> Unit
         ) {
-            //  Загружаем анимацию
-//            item.animation = AnimationUtils.loadAnimation(item.context, R.anim.slide_in)
-
-
             val image = itemView.findViewById<ImageView>(R.id.image)
             val buttonViewInfo = itemView.findViewById<Button>(R.id.button_view_info)
             val buttonSetFavorite = itemView.findViewById<ImageView>(R.id.button_set_favorite)
@@ -59,7 +56,7 @@ class MoviesAdapter(
 
             image.setImageResource(movie.imageResId)
             buttonViewInfo.apply {
-                text = movie.title
+                text = itemView.context.getString(movie.title)
                 setOnClickListener { onViewMovieClick(movie) }
             }
 
