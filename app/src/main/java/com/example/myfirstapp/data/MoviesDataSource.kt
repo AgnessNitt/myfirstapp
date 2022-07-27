@@ -4,16 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
-import com.example.myfirstapp.observer.MovieObservable
 
 object MoviesDataSource {
 
-    private var _movies: MutableLiveData<List<Movie>> = MutableLiveData<List<Movie>>(listOf())
+    private val _movies: MutableLiveData<List<Movie>> = MutableLiveData<List<Movie>>(getMovies())
     val movies: LiveData<List<Movie>> = _movies
-
-    init {
-        createMovies()
-    }
 
     fun setMovieFavorite(movie: Movie) {
         val list = movies.value?.toMutableList() ?: return
@@ -43,8 +38,8 @@ object MoviesDataSource {
     }
 
     //    Создаём список фильмов
-    private fun createMovies() {
-        val movies = mutableListOf<Movie>(
+    private fun getMovies(): List<Movie> {
+        return listOf(
             Movie(
                 title = R.string.dogma,
                 description = R.string.Dogma_text,
@@ -82,6 +77,5 @@ object MoviesDataSource {
                 isFavorite = false
             )
         )
-        _movies.value = movies
     }
 }

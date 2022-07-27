@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.movie.MovieActivity
 import com.example.myfirstapp.R
-import com.example.myfirstapp.data.MoviesDataSource
 import com.example.myfirstapp.favorite.FavoriteMoviesActivity
-import com.example.myfirstapp.observer.MovieObserver
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initRecyclerView()
-        setOnShowFavoritesButtonClickListener()
+        setUpShowFavoritesButton()
         setUpAddButton()
     }
 
@@ -93,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(intent, 42)
     }
 
-    private fun setOnShowFavoritesButtonClickListener() {
+    private fun setUpShowFavoritesButton() {
         val button = findViewById<AppCompatButton>(R.id.button_show_favorites)
         button.setOnClickListener {
             val intent = Intent(this, FavoriteMoviesActivity::class.java)
