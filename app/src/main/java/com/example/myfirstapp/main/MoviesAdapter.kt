@@ -12,7 +12,7 @@ import com.example.myfirstapp.R
 
 //  Адаптер для отображения списка
 class MoviesAdapter(
-    private var movies: MutableList<Movie>,
+    private var movies: List<Movie>,
     private val onViewMovieClick: (Movie) -> Unit,
     private val onSetFavoriteClick: (Movie) -> Unit
 ) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
@@ -33,11 +33,6 @@ class MoviesAdapter(
     fun refreshMovies(movies: MutableList<Movie>) {
         this.movies = movies
         notifyDataSetChanged()
-    }
-
-    fun addMovie(movie: Movie) {
-        movies.add(1, movie)
-        notifyItemInserted(1)
     }
 
     //    ViewHolder

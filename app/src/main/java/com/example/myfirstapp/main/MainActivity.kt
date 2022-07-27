@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
-            movies = mutableListOf(),
+            movies = listOf(),
             onViewMovieClick = this::onMovieClicked,
             onSetFavoriteClick = viewModel::setMovieFavorite
         )
