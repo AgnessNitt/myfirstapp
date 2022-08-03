@@ -6,6 +6,9 @@
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/drawable/ic_favorite.xml" value="0.161" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2075" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/drawable/ic_not_favorite.xml" value="0.1925" />
+        <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout-land/activity_favorite_movies.xml" value="0.1728395061728395" />
+        <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout-land/activity_main.xml" value="0.11935483870967742" />
+        <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout-land/activity_main2.xml" value="0.1728395061728395" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout/activity_favorite_movies.xml" value="0.20416666666666666" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/layout/activity_main2.xml" value="0.1" />

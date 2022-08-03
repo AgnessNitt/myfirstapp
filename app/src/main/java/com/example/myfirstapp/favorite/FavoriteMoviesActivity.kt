@@ -1,8 +1,11 @@
 package com.example.myfirstapp.favorite
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.R
 import com.example.myfirstapp.data.MoviesDataSource
@@ -23,6 +26,7 @@ class FavoriteMoviesActivity : AppCompatActivity() {
         adapter = FavoriteMovieAdapter(movies = MoviesDataSource.getFavoriteMovies())
         val recyclerFavoriteMovies = findViewById<RecyclerView>(R.id.recycler_favorite_movies)
         recyclerFavoriteMovies.adapter = adapter
+        recyclerFavoriteMovies.layoutManager = getLayoutManager()
 
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
@@ -42,5 +46,14 @@ class FavoriteMoviesActivity : AppCompatActivity() {
             }
         )
         itemTouchHelper.attachToRecyclerView(recyclerFavoriteMovies)
+    }
+
+    private fun getLayoutManager(): RecyclerView.LayoutManager {
+        val orientation = resources.configuration.orientation
+        return if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            LinearLayoutManager(this)
+        } else {
+            GridLayoutManager(this, 2)
+        }
     }
 }

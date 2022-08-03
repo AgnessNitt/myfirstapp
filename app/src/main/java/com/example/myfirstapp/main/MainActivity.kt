@@ -1,10 +1,14 @@
 package com.example.myfirstapp.main
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.movie.MovieActivity
@@ -15,6 +19,7 @@ import com.example.myfirstapp.observer.MovieObserver
 
 
 class MainActivity : AppCompatActivity(), MovieObserver {
+
 
     //    create adapter
     private lateinit var adapter: MoviesAdapter
@@ -38,6 +43,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         }
     }
 
+
     override fun onMoviesChanged(movies: List<Movie>) {
         adapter.refreshMovies(movies)
     }
@@ -55,7 +61,17 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             onSetFavoriteClick = this::onSetFavoriteClicked
         )
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
+        recyclerView.layoutManager = getLayoutManager()
         recyclerView.adapter = adapter
+    }
+
+    private fun getLayoutManager(): RecyclerView.LayoutManager {
+        val orientation = resources.configuration.orientation
+        return if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            LinearLayoutManager(this)
+        } else {
+            GridLayoutManager(this, 2)
+        }
     }
 
     //    button click handling
