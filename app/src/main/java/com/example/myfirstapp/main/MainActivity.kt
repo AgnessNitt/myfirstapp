@@ -70,7 +70,9 @@ class MainActivity : AppCompatActivity() {
 
         //  Устанавливаем ItemAnimator
         recyclerView.itemAnimator = MovieItemAnimator()
-        viewModel.movies.observe(this) { adapter.refreshMovies(it.toMutableList()) }
+
+        //  Устанавливаем наблюдатель списка фильмов из ViewModel
+        viewModel.movies.observe(this) { movies -> adapter.refreshMovies(movies.toMutableList()) }
     }
 
     private fun getLayoutManager(): RecyclerView.LayoutManager {
