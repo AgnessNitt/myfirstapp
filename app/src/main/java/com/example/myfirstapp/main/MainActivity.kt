@@ -3,35 +3,36 @@ package com.example.myfirstapp.main
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.movie.MovieActivity
 import com.example.myfirstapp.R
-import com.example.myfirstapp.data.MoviesDataSource
 import com.example.myfirstapp.favorite.FavoriteMoviesActivity
-import com.example.myfirstapp.observer.MovieObserver
 
 
-class MainActivity : AppCompatActivity(), MovieObserver {
+class MainActivity : AppCompatActivity() {
+    //    Для создания вьюмодели используется делегат.
+    //    Он создаст экземпляр вьюмодели только в момент первого обращения к ней.
+    private val viewModel: MainViewModel by viewModels()
 
-
-    //    create adapter
+    //    Создаём адаптер
     private lateinit var adapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        MoviesDataSource.createMovies(applicationContext)
         initRecyclerView()
-        MoviesDataSource.addObserver(this)
-        setOnShowFavoritesButtonClickListener()
+        setUpShowFavoritesButton()
+        setUpAddButton()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -44,30 +45,34 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         }
     }
 
+    override fun onBackPressed() = showExitDialog()
 
-    override fun onMoviesChanged(movies: List<Movie>) {
-        adapter.refreshMovies(movies)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        MoviesDataSource.removeObserver(this)
-    }
-
-    override fun onBackPressed() {
-        showExitDialog()
-    }
-
-    //    initialization RecyclerView
+    //    Инициализируем RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
-            movies = MoviesDataSource.movies,
+            movies = listOf(),
             onViewMovieClick = this::onMovieClicked,
-            onSetFavoriteClick = this::onSetFavoriteClicked
+            onSetFavoriteClick = viewModel::setMovieFavorite
         )
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
         recyclerView.layoutManager = getLayoutManager()
         recyclerView.adapter = adapter
+
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        val dividerDrawable = ContextCompat.getDrawable(this, R.drawable.background_divider)
+
+        dividerDrawable?.let {
+            itemDecoration.setDrawable(dividerDrawable)
+        }
+
+        //  Устанавливаем ItemDecoration
+        recyclerView.addItemDecoration(itemDecoration)
+
+        //  Устанавливаем ItemAnimator
+        recyclerView.itemAnimator = MovieItemAnimator()
+
+        //  Устанавливаем наблюдатель списка фильмов из ViewModel
+        viewModel.movies.observe(this) { movies -> adapter.refreshMovies(movies.toMutableList()) }
     }
 
     private fun getLayoutManager(): RecyclerView.LayoutManager {
@@ -79,7 +84,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         }
     }
 
-    //    button click handling
+    //    Обработка нажатия на кнопку
     private fun onMovieClicked(movie: Movie) {
         val intent = Intent(this, MovieActivity::class.java)
         intent.putExtra(MovieActivity.EXTRA_TITLE, movie.title)
@@ -88,35 +93,42 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         startActivityForResult(intent, 42)
     }
 
-    //    adding to favorites
-    private fun onSetFavoriteClicked(movie: Movie) {
-        MoviesDataSource.setMovieFavorite(movie)
-        adapter.refreshMovies(MoviesDataSource.movies)
-    }
-
-    private fun setOnShowFavoritesButtonClickListener() {
+    private fun setUpShowFavoritesButton() {
         val button = findViewById<AppCompatButton>(R.id.button_show_favorites)
         button.setOnClickListener {
             val intent = Intent(this, FavoriteMoviesActivity::class.java)
             startActivity(intent)
         }
+    }
 
+    private fun setUpAddButton() {
+        val addButton = findViewById<AppCompatButton>(R.id.button_add_movie)
+        addButton.setOnClickListener {
+            viewModel.addMovie(
+                Movie(
+                    title = R.string.dogma,
+                    description = R.string.Dogma_text,
+                    imageResId = R.drawable.dogma,
+                    isFavorite = false
+                )
+            )
+        }
     }
 
     private fun showExitDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-
         builder.setMessage(R.string.exit_dialog_message)
             .setTitle(R.string.exit_dialog_title)
             .setPositiveButton(R.string.button_yes) { dialog, id ->
+                dialog.dismiss()
                 this.finish()
             }
             .setNegativeButton(R.string.button_no) { dialog, id ->
-                dialog.cancel()
+                dialog.dismiss()
             }
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
-
     }
 }
+

@@ -3,14 +3,20 @@ package com.example.myfirstapp.favorite
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.R
 import com.example.myfirstapp.data.MoviesDataSource
+import com.example.myfirstapp.main.MainViewModel
 
 class FavoriteMoviesActivity : AppCompatActivity() {
+
+    //    Для создания вьюмодели используется делегат.
+    //    Он создаст экземпляр вьюмодели только в момент первого обращения к ней.
+    private val viewModel: FavoriteMoviesViewModel by viewModels()
 
     //    Создаём адаптер
     private lateinit var adapter: FavoriteMovieAdapter
@@ -40,12 +46,12 @@ class FavoriteMoviesActivity : AppCompatActivity() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val movie = adapter.getItem(viewHolder.adapterPosition)
-                    MoviesDataSource.deleteFromFavorites(movie)
-                    adapter.refreshMovies(MoviesDataSource.getFavoriteMovies())
+                    viewModel.deleteFromFavorites(movie)
                 }
             }
         )
         itemTouchHelper.attachToRecyclerView(recyclerFavoriteMovies)
+        viewModel.favoriteMovies.observe(this) { adapter.refreshMovies(it) }
     }
 
     private fun getLayoutManager(): RecyclerView.LayoutManager {

@@ -48,7 +48,7 @@ class FavoriteMovieAdapter(private var movies: List<Movie>) :
 
             image.setImageResource(movie.imageResId)
             buttonViewInfo.apply {
-                text = movie.title
+                text = itemView.context.getString(movie.title)
             }
         }
     }

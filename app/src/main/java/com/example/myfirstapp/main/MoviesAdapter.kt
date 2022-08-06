@@ -3,14 +3,14 @@ package com.example.myfirstapp.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
 
-//  List Adapter
+//  Адаптер для отображения списка
 class MoviesAdapter(
     private var movies: List<Movie>,
     private val onViewMovieClick: (Movie) -> Unit,
@@ -30,13 +30,13 @@ class MoviesAdapter(
 
     override fun getItemCount(): Int = movies.size
 
-    fun refreshMovies(movies: List<Movie>) {
+    fun refreshMovies(movies: MutableList<Movie>) {
         this.movies = movies
         notifyDataSetChanged()
     }
 
     //    ViewHolder
-    class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    class MoviesViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(
             movie: Movie,
@@ -51,7 +51,7 @@ class MoviesAdapter(
 
             image.setImageResource(movie.imageResId)
             buttonViewInfo.apply {
-                text = movie.title
+                text = itemView.context.getString(movie.title)
                 setOnClickListener { onViewMovieClick(movie) }
             }
 
