@@ -1,10 +1,15 @@
 package com.example.myfirstapp.main
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.movie.MovieActivity
@@ -16,7 +21,8 @@ import com.example.myfirstapp.observer.MovieObserver
 
 class MainActivity : AppCompatActivity(), MovieObserver {
 
-    //    Создаём адаптер
+
+    //    create adapter
     private lateinit var adapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         }
     }
 
+
     override fun onMoviesChanged(movies: List<Movie>) {
         adapter.refreshMovies(movies)
     }
@@ -47,7 +54,11 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         MoviesDataSource.removeObserver(this)
     }
 
-    //    Инициализируем RecyclerView
+    override fun onBackPressed() {
+        showExitDialog()
+    }
+
+    //    initialization RecyclerView
     private fun initRecyclerView() {
         adapter = MoviesAdapter(
             movies = MoviesDataSource.movies,
@@ -55,10 +66,20 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             onSetFavoriteClick = this::onSetFavoriteClicked
         )
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
+        recyclerView.layoutManager = getLayoutManager()
         recyclerView.adapter = adapter
     }
 
-    //    Обработка нажатия на кнопку
+    private fun getLayoutManager(): RecyclerView.LayoutManager {
+        val orientation = resources.configuration.orientation
+        return if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            LinearLayoutManager(this)
+        } else {
+            GridLayoutManager(this, 2)
+        }
+    }
+
+    //    button click handling
     private fun onMovieClicked(movie: Movie) {
         val intent = Intent(this, MovieActivity::class.java)
         intent.putExtra(MovieActivity.EXTRA_TITLE, movie.title)
@@ -67,7 +88,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         startActivityForResult(intent, 42)
     }
 
-    //    Обработка нажатия на кнопку добавления в избранное
+    //    adding to favorites
     private fun onSetFavoriteClicked(movie: Movie) {
         MoviesDataSource.setMovieFavorite(movie)
         adapter.refreshMovies(MoviesDataSource.movies)
@@ -79,6 +100,23 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             val intent = Intent(this, FavoriteMoviesActivity::class.java)
             startActivity(intent)
         }
+
+    }
+
+    private fun showExitDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder.setMessage(R.string.exit_dialog_message)
+            .setTitle(R.string.exit_dialog_title)
+            .setPositiveButton(R.string.button_yes) { dialog, id ->
+                this.finish()
+            }
+            .setNegativeButton(R.string.button_no) { dialog, id ->
+                dialog.cancel()
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
     }
 }
-

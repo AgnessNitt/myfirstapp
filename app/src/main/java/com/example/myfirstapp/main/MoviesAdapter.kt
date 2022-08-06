@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
 
-//  Адаптер для отображения списка
+//  List Adapter
 class MoviesAdapter(
     private var movies: List<Movie>,
     private val onViewMovieClick: (Movie) -> Unit,
@@ -51,8 +51,8 @@ class MoviesAdapter(
 
             image.setImageResource(movie.imageResId)
             buttonViewInfo.apply {
-               text = movie.title
-               setOnClickListener { onViewMovieClick(movie) }
+                text = movie.title
+                setOnClickListener { onViewMovieClick(movie) }
             }
 
             buttonSetFavorite.apply {

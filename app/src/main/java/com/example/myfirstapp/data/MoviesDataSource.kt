@@ -17,7 +17,7 @@ object MoviesDataSource : MovieObservable() {
         }
     }
 
-    //    Создаём список фильмов
+    //    create a movie list
     fun createMovies(context: Context) {
         val movies = mutableListOf<Movie>(
             Movie(
