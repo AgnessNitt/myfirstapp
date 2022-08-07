@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/drawable/background_divider.xml" value="0.1465" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/drawable/ic_favorite.xml" value="0.161" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2075" />
         <entry key="..\:/AndroidProject/MyFirstApp/app/src/main/res/drawable/ic_not_favorite.xml" value="0.1925" />
