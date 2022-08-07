@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,6 +70,15 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
         recyclerView.layoutManager = getLayoutManager()
         recyclerView.adapter = adapter
+
+        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        val dividerDrawable = ContextCompat.getDrawable(this, R.drawable.background_divider)
+
+        dividerDrawable?.let {
+            itemDecoration.setDrawable(dividerDrawable)
+        }
+
+        recyclerView.addItemDecoration(itemDecoration)
     }
 
     private fun getLayoutManager(): RecyclerView.LayoutManager {
