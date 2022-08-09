@@ -66,5 +66,6 @@
     <string name="exit_dialog_message">Are you sure want to exit? </string>
     <string name="button_yes">YES</string>
     <string name="button_no">NO</string>
+    <string name="result_pattern">Result %s</string>
 
 </resources>

@@ -65,5 +65,6 @@
     <string name="exit_dialog_message">Вы уверены, что хотите выйти? </string>
     <string name="button_yes">ДА</string>
     <string name="button_no">НЕТ</string>
+    <string name="result_pattern">Результат %s</string>
 
 </resources>

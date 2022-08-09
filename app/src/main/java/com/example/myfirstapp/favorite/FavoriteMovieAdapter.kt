@@ -21,8 +21,7 @@ class FavoriteMovieAdapter(private var movies: List<Movie>) :
             parent,
             false
         )
-        val viewHolder = FavoriteMoviesViewHolder(view)
-        return viewHolder
+        return FavoriteMoviesViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: FavoriteMoviesViewHolder, position: Int) {
@@ -39,7 +38,6 @@ class FavoriteMovieAdapter(private var movies: List<Movie>) :
 
     fun getItem(position: Int): Movie = movies[position]
 
-    //    ViewHolder
     class FavoriteMoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
         fun bind(movie: Movie) {
@@ -47,9 +45,7 @@ class FavoriteMovieAdapter(private var movies: List<Movie>) :
             val buttonViewInfo = itemView.findViewById<Button>(R.id.button_view_info)
 
             image.setImageResource(movie.imageResId)
-            buttonViewInfo.apply {
-                text = movie.title
-            }
+            buttonViewInfo.text = movie.title
         }
     }
 }

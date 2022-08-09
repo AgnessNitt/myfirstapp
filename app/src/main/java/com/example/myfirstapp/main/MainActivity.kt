@@ -1,17 +1,14 @@
 package com.example.myfirstapp.main
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.movie.MovieActivity
@@ -23,9 +20,11 @@ import com.example.myfirstapp.observer.MovieObserver
 
 class MainActivity : AppCompatActivity(), MovieObserver {
 
+    private val REQUEST_CODE = 42
 
-    //    create adapter
-    private lateinit var adapter: MoviesAdapter
+    private lateinit var recyclerViewMovies: RecyclerView
+    private lateinit var buttonShowFavorites: Button
+    private lateinit var moviesAdapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,40 +35,36 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         setOnShowFavoritesButtonClickListener()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 42) {
-            if (resultCode == RESULT_OK && data != null) {
-                val result = data.getBooleanExtra(MovieActivity.RESULT_FAVORITE, false)
-                Toast.makeText(this, "Результат $result", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-
-    override fun onMoviesChanged(movies: List<Movie>) {
-        adapter.refreshMovies(movies)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         MoviesDataSource.removeObserver(this)
     }
 
-    override fun onBackPressed() {
-        showExitDialog()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK && data != null) {
+                val result = data.getBooleanExtra(MovieActivity.KEY_RESULT_FAVORITE, false)
+                Toast.makeText(
+                    this,
+                    getString(R.string.result_pattern, result.toString()),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
-    //    initialization RecyclerView
+    override fun onMoviesChanged(movies: List<Movie>) = moviesAdapter.refreshMovies(movies)
+
+    override fun onBackPressed() = showExitDialog()
+
     private fun initRecyclerView() {
-        adapter = MoviesAdapter(
+        recyclerViewMovies = findViewById(R.id.recycler_movies)
+        moviesAdapter = MoviesAdapter(
             movies = MoviesDataSource.movies,
             onViewMovieClick = this::onMovieClicked,
             onSetFavoriteClick = this::onSetFavoriteClicked
         )
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_movies)
-        recyclerView.layoutManager = getLayoutManager()
-        recyclerView.adapter = adapter
 
         val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val dividerDrawable = ContextCompat.getDrawable(this, R.drawable.background_divider)
@@ -78,40 +73,33 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             itemDecoration.setDrawable(dividerDrawable)
         }
 
-        recyclerView.addItemDecoration(itemDecoration)
-    }
-
-    private fun getLayoutManager(): RecyclerView.LayoutManager {
-        val orientation = resources.configuration.orientation
-        return if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            LinearLayoutManager(this)
-        } else {
-            GridLayoutManager(this, 2)
+        recyclerViewMovies.apply {
+            adapter = this@MainActivity.moviesAdapter
+            addItemDecoration(itemDecoration)
         }
     }
 
-    //    button click handling
     private fun onMovieClicked(movie: Movie) {
         val intent = Intent(this, MovieActivity::class.java)
-        intent.putExtra(MovieActivity.EXTRA_TITLE, movie.title)
-        intent.putExtra(MovieActivity.EXTRA_DESCRIPTION, movie.description)
-        intent.putExtra(MovieActivity.EXTRA_POSTER, movie.imageResId)
-        startActivityForResult(intent, 42)
+        with(intent) {
+            putExtra(MovieActivity.KEY_TITLE, movie.title)
+            putExtra(MovieActivity.KEY_DESCRIPTION, movie.description)
+            putExtra(MovieActivity.KEY_POSTER_ID, movie.imageResId)
+            startActivityForResult(this, REQUEST_CODE)
+        }
     }
 
-    //    adding to favorites
     private fun onSetFavoriteClicked(movie: Movie) {
         MoviesDataSource.setMovieFavorite(movie)
-        adapter.refreshMovies(MoviesDataSource.movies)
+        moviesAdapter.refreshMovies(MoviesDataSource.movies)
     }
 
     private fun setOnShowFavoritesButtonClickListener() {
-        val button = findViewById<AppCompatButton>(R.id.button_show_favorites)
-        button.setOnClickListener {
+        buttonShowFavorites = findViewById<AppCompatButton>(R.id.button_show_favorites)
+        buttonShowFavorites.setOnClickListener {
             val intent = Intent(this, FavoriteMoviesActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun showExitDialog() {

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
 
-//  List Adapter
 class MoviesAdapter(
     private var movies: List<Movie>,
     private val onViewMovieClick: (Movie) -> Unit,
@@ -19,8 +18,7 @@ class MoviesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
-        val viewHolder = MoviesViewHolder(view)
-        return viewHolder
+        return MoviesViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
@@ -35,7 +33,6 @@ class MoviesAdapter(
         notifyDataSetChanged()
     }
 
-    //    ViewHolder
     class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
         fun bind(
