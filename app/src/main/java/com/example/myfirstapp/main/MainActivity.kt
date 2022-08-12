@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         MoviesDataSource.addObserver(this)
         setOnShowFavoritesButtonClickListener()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         MoviesDataSource.removeObserver(this)
@@ -52,16 +53,19 @@ class MainActivity : AppCompatActivity(), MovieObserver {
             }
         }
     }
+
     override fun onMoviesChanged(movies: List<Movie>) = moviesAdapter.refreshMovies(movies)
 
     override fun onBackPressed() = showExitDialog()
 
     private fun initRecyclerView() {
-        adapter = MoviesAdapter(
+        recyclerViewMovies = findViewById(R.id.recycler_movies)
+        moviesAdapter = MoviesAdapter(
             movies = MoviesDataSource.movies,
             onViewMovieClick = this::onMovieClicked,
             onSetFavoriteClick = this::onSetFavoriteClicked
         )
+
         val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val dividerDrawable = ContextCompat.getDrawable(this, R.drawable.background_divider)
 
