@@ -17,7 +17,6 @@ object MoviesDataSource : MovieObservable() {
         }
     }
 
-    //    create a movie list
     fun createMovies(context: Context) {
         val movies = mutableListOf<Movie>(
             Movie(
@@ -67,10 +66,7 @@ object MoviesDataSource : MovieObservable() {
         notifyObservers()
     }
 
-    fun getFavoriteMovies(): List<Movie> {
-        val favoriteMovies = movies.filter { movie -> movie.isFavorite }
-        return favoriteMovies
-    }
+    fun getFavoriteMovies(): List<Movie> = movies.filter { movie -> movie.isFavorite }
 
     fun deleteFromFavorites(movie: Movie) {
         val index = _movies.indexOf(movie)

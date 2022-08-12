@@ -1,19 +1,16 @@
 package com.example.myfirstapp.favorite
 
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.R
 import com.example.myfirstapp.data.MoviesDataSource
 
 class FavoriteMoviesActivity : AppCompatActivity() {
 
-    //    Создаём адаптер
-    private lateinit var adapter: FavoriteMovieAdapter
+    private lateinit var recyclerViewMovies: RecyclerView
+    private lateinit var moviesAdapter: FavoriteMovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +18,11 @@ class FavoriteMoviesActivity : AppCompatActivity() {
         initRecyclerView()
     }
 
-    //    Инициализируем RecyclerView
     private fun initRecyclerView() {
-        adapter = FavoriteMovieAdapter(movies = MoviesDataSource.getFavoriteMovies())
-        val recyclerFavoriteMovies = findViewById<RecyclerView>(R.id.recycler_favorite_movies)
-        recyclerFavoriteMovies.adapter = adapter
-        recyclerFavoriteMovies.layoutManager = getLayoutManager()
+        recyclerViewMovies = findViewById(R.id.recycler_favorite_movies)
+        moviesAdapter = FavoriteMovieAdapter(movies = MoviesDataSource.getFavoriteMovies())
+
+        recyclerViewMovies.adapter = moviesAdapter
 
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
@@ -39,21 +35,12 @@ class FavoriteMoviesActivity : AppCompatActivity() {
                 ): Boolean = false
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val movie = adapter.getItem(viewHolder.adapterPosition)
+                    val movie = moviesAdapter.getItem(viewHolder.adapterPosition)
                     MoviesDataSource.deleteFromFavorites(movie)
-                    adapter.refreshMovies(MoviesDataSource.getFavoriteMovies())
+                    moviesAdapter.refreshMovies(MoviesDataSource.getFavoriteMovies())
                 }
             }
         )
-        itemTouchHelper.attachToRecyclerView(recyclerFavoriteMovies)
-    }
-
-    private fun getLayoutManager(): RecyclerView.LayoutManager {
-        val orientation = resources.configuration.orientation
-        return if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            LinearLayoutManager(this)
-        } else {
-            GridLayoutManager(this, 2)
-        }
+        itemTouchHelper.attachToRecyclerView(recyclerViewMovies)
     }
 }
