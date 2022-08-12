@@ -33,6 +33,7 @@ class MoviesAdapter(
         notifyDataSetChanged()
     }
 
+    //    ViewHolder
     class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
         fun bind(

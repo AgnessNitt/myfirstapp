@@ -57,8 +57,7 @@ class MainActivity : AppCompatActivity(), MovieObserver {
     override fun onBackPressed() = showExitDialog()
 
     private fun initRecyclerView() {
-        recyclerViewMovies = findViewById(R.id.recycler_movies)
-        moviesAdapter = MoviesAdapter(
+        adapter = MoviesAdapter(
             movies = MoviesDataSource.movies,
             onViewMovieClick = this::onMovieClicked,
             onSetFavoriteClick = this::onSetFavoriteClicked

@@ -11,6 +11,4 @@ abstract class MovieObservable {
     fun addObserver(observer: MovieObserver) = observers.add(observer)
 
     fun removeObserver(observer: MovieObserver) = observers.remove(observer)
-
-
 }
