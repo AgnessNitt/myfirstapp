@@ -33,20 +33,17 @@ class MovieActivity : AppCompatActivity() {
             title = it
         }
     }
-
     private fun setDescription() {
         intent.getStringExtra(KEY_DESCRIPTION)?.let {
             textViewDescription.text = it
         }
     }
-
     private fun setPoster() {
         val posterId = intent.getIntExtra(KEY_POSTER_ID, DEFAULT_POSTER_ID)
         if (posterId != DEFAULT_POSTER_ID) {
             imageViewPoster.setImageResource(posterId)
         }
     }
-
     private fun setResult() {
         val result = Intent()
         result.putExtra(KEY_RESULT_FAVORITE, true)

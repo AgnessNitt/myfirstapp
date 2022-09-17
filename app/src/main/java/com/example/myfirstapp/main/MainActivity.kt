@@ -18,26 +18,13 @@ import com.example.myfirstapp.favorite.FavoriteMoviesActivity
 import com.example.myfirstapp.observer.MovieObserver
 
 
-class MainActivity : AppCompatActivity(), MovieObserver {
+class MainActivity : AppCompatActivity() {
 
     private val REQUEST_CODE = 42
-
-    private lateinit var recyclerViewMovies: RecyclerView
-    private lateinit var buttonShowFavorites: Button
-    private lateinit var moviesAdapter: MoviesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        MoviesDataSource.createMovies(applicationContext)
-        initRecyclerView()
-        MoviesDataSource.addObserver(this)
-        setOnShowFavoritesButtonClickListener()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        MoviesDataSource.removeObserver(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -54,57 +41,16 @@ class MainActivity : AppCompatActivity(), MovieObserver {
         }
     }
 
-    override fun onMoviesChanged(movies: List<Movie>) = moviesAdapter.refreshMovies(movies)
-
-    override fun onBackPressed() = showExitDialog()
-
-    private fun initRecyclerView() {
-        recyclerViewMovies = findViewById(R.id.recycler_movies)
-        moviesAdapter = MoviesAdapter(
-            movies = MoviesDataSource.movies,
-            onViewMovieClick = this::onMovieClicked,
-            onSetFavoriteClick = this::onSetFavoriteClicked
-        )
-
-        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        val dividerDrawable = ContextCompat.getDrawable(this, R.drawable.background_divider)
-
-        dividerDrawable?.let {
-            itemDecoration.setDrawable(dividerDrawable)
-        }
-
-        recyclerViewMovies.apply {
-            adapter = this@MainActivity.moviesAdapter
-            addItemDecoration(itemDecoration)
-        }
-    }
-
-    private fun onMovieClicked(movie: Movie) {
-        val intent = Intent(this, MovieActivity::class.java)
-        with(intent) {
-            putExtra(MovieActivity.KEY_TITLE, movie.title)
-            putExtra(MovieActivity.KEY_DESCRIPTION, movie.description)
-            putExtra(MovieActivity.KEY_POSTER_ID, movie.imageResId)
-            startActivityForResult(this, REQUEST_CODE)
-        }
-    }
-
-    private fun onSetFavoriteClicked(movie: Movie) {
-        MoviesDataSource.setMovieFavorite(movie)
-        moviesAdapter.refreshMovies(MoviesDataSource.movies)
-    }
-
-    private fun setOnShowFavoritesButtonClickListener() {
-        buttonShowFavorites = findViewById<AppCompatButton>(R.id.button_show_favorites)
-        buttonShowFavorites.setOnClickListener {
-            val intent = Intent(this, FavoriteMoviesActivity::class.java)
-            startActivity(intent)
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            showExitDialog()
+        } else {
+            super.onBackPressed()
         }
     }
 
     private fun showExitDialog() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-
         builder.setMessage(R.string.exit_dialog_message)
             .setTitle(R.string.exit_dialog_title)
             .setPositiveButton(R.string.button_yes) { dialog, id ->
@@ -116,6 +62,5 @@ class MainActivity : AppCompatActivity(), MovieObserver {
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
-
     }
 }

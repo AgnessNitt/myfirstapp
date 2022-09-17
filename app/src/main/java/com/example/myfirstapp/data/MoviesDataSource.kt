@@ -1,24 +1,25 @@
 package com.example.myfirstapp.data
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.myfirstapp.Movie
 import com.example.myfirstapp.R
 import com.example.myfirstapp.observer.MovieObservable
 
 object MoviesDataSource : MovieObservable() {
 
-    private var _movies: MutableList<Movie> = mutableListOf()
-    val movies: List<Movie>
-        get() = _movies
+    private val _movies: MutableLiveData<List<Movie>> = MutableLiveData<List<Movie>>(listOf())
+    val movies: LiveData<List<Movie>> = _movies
 
     override fun notifyObservers() {
-        observers.forEach {
-            it.onMoviesChanged(movies)
-        }
+//        observers.forEach {
+//            it.onMoviesChanged(movies.value)
+//        }
     }
 
     fun createMovies(context: Context) {
-        val movies = mutableListOf<Movie>(
+        val movies = listOf<Movie>(
             Movie(
                 title = context.getString(R.string.dogma),
                 description = context.getString(R.string.Dogma_text),
@@ -56,22 +57,25 @@ object MoviesDataSource : MovieObservable() {
                 isFavorite = false
             )
         )
-        _movies = movies
+        _movies.value = movies
     }
 
     fun setMovieFavorite(movie: Movie) {
-        val index = _movies.indexOf(movie)
+        val copy = _movies.value?.toMutableList() ?: return
+        val index = copy.indexOf(movie)
         val newMovie = movie.copy(isFavorite = !movie.isFavorite)
-        _movies[index] = newMovie
-        notifyObservers()
+        copy[index] = newMovie
+        _movies.value = copy
     }
 
-    fun getFavoriteMovies(): List<Movie> = movies.filter { movie -> movie.isFavorite }
+    fun getFavoriteMovies(): List<Movie> =
+        movies.value?.filter { movie -> movie.isFavorite } ?: listOf()
 
     fun deleteFromFavorites(movie: Movie) {
-        val index = _movies.indexOf(movie)
+        val copy = _movies.value?.toMutableList() ?: return
+        val index = copy.indexOf(movie)
         val newMovie = movie.copy(isFavorite = false)
-        _movies[index] = newMovie
-        notifyObservers()
+        copy[index] = newMovie
+        _movies.value = copy
     }
 }
